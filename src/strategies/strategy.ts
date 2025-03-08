@@ -1,4 +1,5 @@
-import { UnleashContext } from "../context";
+import { UnleashContext } from "../types/context";
+import { createGradualRollout } from "./gradualRollout";
 
 export interface StrategyFn<T extends object> {
     (parameters: T, context: UnleashContext): void
@@ -12,6 +13,11 @@ export const STRATEGIES = {
         const userIds = params.userIds.split(/, ?/g)
         console.log(userIds)
         return userIds.includes(ctx.userId)
+    },
+    gradualRolloutUserId: createGradualRollout("userId"),
+    gradualRolloutSessionId: createGradualRollout("sessionId"),
+    gradualRolloutRandom(params: {percentage: number}, ctx) {
+        return Math.random() * 100 < params.percentage
     }
 } satisfies Record<string, StrategyFn<never>>
 
