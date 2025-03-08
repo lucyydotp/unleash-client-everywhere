@@ -1,5 +1,5 @@
 {
-  "name": "unleash-client",
+  "name": "unleash-client-everywhere",
   "version": "1.0.0",
   "description": "An unofficial, platform-agnostic, zero-dependency Unleash client",
   "main": "lib/index.js",
