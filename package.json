@@ -13,8 +13,9 @@
     "typescript": "^5.8.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "build": "tsc"
   },
-  "author": "Lucy Poulton",
+  "author": "Lucy Poulton <lucy@lucyydotp.me>",
   "license": "MIT"
 }
