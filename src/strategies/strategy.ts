@@ -11,7 +11,6 @@ export const STRATEGIES = {
         if (!ctx.userId) return false
 
         const userIds = params.userIds.split(/, ?/g)
-        console.log(userIds)
         return userIds.includes(ctx.userId)
     },
     gradualRolloutUserId: createGradualRollout("userId"),
