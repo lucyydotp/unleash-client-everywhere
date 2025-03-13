@@ -2,7 +2,7 @@ import { UnleashContext } from "../types/context";
 import { createGradualRollout } from "./gradualRollout";
 
 export interface StrategyFn<T extends object> {
-    (parameters: T, context: UnleashContext): void
+    (parameters: T, context: UnleashContext): boolean
 }
 
 export const STRATEGIES = {

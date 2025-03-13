@@ -1,5 +1,6 @@
-import { UnleashContext } from "./context";
+import { CONSTRAINTS } from "./strategies/constraint";
 import { STRATEGIES } from "./strategies/strategy";
+import { UnleashContext } from "./types/context";
 import { Feature, FeaturesApiResponse } from "./types/feature";
 
 export class UnleashClient {
@@ -16,7 +17,11 @@ export class UnleashClient {
             const strategy = STRATEGIES[strategyDef.name]
             if (strategy == undefined) throw new Error(`Unknown strategy ${strategyDef.name}`)
 
-            if (strategy(strategyDef.parameters, context)) return true
+            const satisfiesConstraints = !strategyDef.constraints || strategyDef.constraints.every(
+                c => CONSTRAINTS[c.operator]?.satisfies(c, context) ?? false
+            )
+
+            if (satisfiesConstraints && strategy(strategyDef.parameters, context)) return true
         }
 
         return false
