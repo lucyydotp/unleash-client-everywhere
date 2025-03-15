@@ -4,7 +4,7 @@ import { StrategyFn } from "./strategy";
 
 const encoder = new TextEncoder()
 
-function normalizedHash(group: string, input: string) {
+export function normalizedHash(group: string, input: string) {
     return (murmur3(
         encoder.encode(`${group}:${input}`)
     ) % 100) + 1
