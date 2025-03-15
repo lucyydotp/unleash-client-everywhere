@@ -20,18 +20,22 @@ export const STRATEGIES = {
     },
     flexibleRollout(params: {
         rollout: number,
-        stickiness: "DEFAULT" | "USERID" | "SESSIONID" | "RANDOM",
+        stickiness: string,
         groupId: string,
     }, ctx) {
         if (params.rollout == 100) return true
         if (params.rollout == 0) return false
 
-        const value = {
+        let value = {
             "default": ctx.userId ?? ctx.sessionId ?? null,
-            "userid": ctx.userId,
-            "sessionid": ctx.sessionId,
+            "userId": ctx.userId,
+            "sessionId": ctx.sessionId,
             "random": null,
-        }[params.stickiness.toLowerCase()]
+        }[params.stickiness]
+
+        if (value === undefined) {
+            value = ctx.properties?.[params.stickiness]
+        }
 
         if (value === undefined) {
             return false
