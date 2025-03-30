@@ -1,8 +1,8 @@
 {
     "include": ["src"],
     "compilerOptions": {
-        "target": "es2022",
-        "module": "es2022",
+        "target": "es2020",
+        "module": "es2020",
         "rootDir": "./src",
         "moduleResolution": "node",
         "declaration": true,
