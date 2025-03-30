@@ -1,30 +1,50 @@
-import { Strategies, StrategyFn } from "../strategies/strategy";
+import * as r from "runtypes"
+import { STRATEGIES } from "../strategies/strategy";
 
-export type Constraint = {
-    contextName: string,
-    operator: string,
-    caseInsensitive?: boolean,
-    inverted?: boolean,
-} & ({
-    value: unknown
-} | {
-    values: unknown[]
+export const Constraint =
+    r.Intersect(
+        r.Object({
+            contextName: r.String,
+            operator: r.String,
+            caseInsensitive: r.Boolean.optional(),
+            inverted: r.Boolean.optional(),
+        }),
+        r.Union(
+            r.Object({
+                value: r.Unknown
+            }),
+            r.Object({
+                values: r.Array(r.Unknown)
+            })
+        )
+    )
+
+export type Constraint = r.Static<typeof Constraint>
+
+const Strategy = r.Intersect(
+    r.Object({
+        constraints: r.Array(Constraint)
+    }),
+    r.Union(
+        ...Object.entries(STRATEGIES).map(([name, {params}]) => r.Object({
+            name: r.Literal(name),
+            parameters: params
+        }))
+    )
+)
+
+const Feature = r.Object({
+    name: r.String,
+    description: r.String.optional(),
+    enabled: r.Boolean,
+    strategies: r.Array(Strategy)
 })
 
-export interface Strategy<T extends keyof Strategies = keyof Strategies> {
-    name: T
-    parameters: Strategies[T] extends StrategyFn<infer P> ? P : never,
-    constraints?: Constraint[]
-}
+export type Feature = r.Static<typeof Feature>
 
-export interface Feature {
-    name: string,
-    description: string,
-    enabled: boolean,
-    strategies: Strategy[]
-}
+export const FeaturesApiResponse = r.Object({
+    version: r.Number,
+    features: r.Array(Feature)
+})
 
-export interface FeaturesApiResponse {
-    version: number,
-    features: Feature[]
-}
+export type FeaturesApiResponse = r.Static<typeof FeaturesApiResponse>

@@ -1,9 +1,12 @@
 {
   "name": "unleash-client-everywhere",
-  "version": "1.0.0",
-  "description": "An unofficial, platform-agnostic, zero-dependency Unleash client",
+  "version": "0.2.0",
+  "description": "An unofficial, lightweight, platform-agnostic Unleash client",
   "main": "lib/index.js",
   "type": "module",
+  "dependencies": {
+    "runtypes": "^7.0.4"
+  },
   "devDependencies": {
     "@types/chai": "^5.2.0",
     "@types/mocha": "^10.0.10",
@@ -16,6 +19,9 @@
     "test": "mocha",
     "build": "tsc"
   },
+  "files": [
+    "lib"
+  ],
   "author": "Lucy Poulton <lucy@lucyydotp.me>",
   "license": "MIT"
 }
